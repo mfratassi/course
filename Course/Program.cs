@@ -4,6 +4,7 @@ using System.Globalization;
 using Course.Entities;
 using Course.Entities.Enums;
 using Course.Entities.TaxPayers;
+using Course.Entities.Exceptions;
 
 namespace Course
 {
@@ -21,10 +22,12 @@ namespace Course
             Console.WriteLine("6 - OutsorcedEmployee");
             Console.WriteLine("7 - Polimorfismo");
             Console.WriteLine("8 - Abstração");
+            Console.WriteLine("9 - Reservation");
             Console.WriteLine();
             int program = int.Parse(Console.ReadLine());
 
-            switch (program) {
+            switch (program)
+            {
                 case 1:
                     ProgramaUm();
                     break;
@@ -48,6 +51,9 @@ namespace Course
                     break;
                 case 8:
                     ProgramaOito();
+                    break;
+                case 9:
+                    ProgramaNove();
                     break;
                 default:
                     Console.WriteLine("Programa padrão ProgramaUm");
@@ -145,7 +151,7 @@ namespace Course
 
             for (int i = 0; i < numberOfPosts; i++)
             {
-                Console.WriteLine($"POST #{i+1}");
+                Console.WriteLine($"POST #{i + 1}");
 
                 Console.Write("Título: ");
                 title = Console.ReadLine();
@@ -153,11 +159,11 @@ namespace Course
                 Console.Write("Conteúdo: ");
                 content = Console.ReadLine();
 
-                Post post = new Post(title,DateTime.Now, content);
+                Post post = new Post(title, DateTime.Now, content);
 
                 Console.Write("Você gostou do post? ");
                 checkLikes = Char.Parse(Console.ReadLine());
-                if(checkLikes=='s' ||
+                if (checkLikes == 's' ||
                     checkLikes == 'S')
                     post.AddLike();
 
@@ -171,7 +177,7 @@ namespace Course
 
                 for (int j = 0; j < numberOfComments; j++)
                 {
-                    Console.WriteLine($"POST {i+1} COMENTÁRIO #{j + 1}");
+                    Console.WriteLine($"POST {i + 1} COMENTÁRIO #{j + 1}");
 
                     Console.WriteLine("Comentário: ");
                     text = Console.ReadLine();
@@ -192,7 +198,7 @@ namespace Course
             {
                 Console.WriteLine(p);
             }
-            
+
         }
 
         static void ProgramaTres()
@@ -204,7 +210,7 @@ namespace Course
             Client customer;
             Order order = new Order();
             Product product;
-            
+
             Console.WriteLine("PROGRAMA TRÊS - ORDER ITEMS");
             Console.WriteLine("----------------");
             Console.WriteLine();
@@ -222,8 +228,8 @@ namespace Course
 
             customer = new Client
             {
-                Name = customerName, 
-                BirthDate = birthDate, 
+                Name = customerName,
+                BirthDate = birthDate,
                 Email = email
             };
 
@@ -239,7 +245,7 @@ namespace Course
 
             for (int i = 0; i < items; i++)
             {
-                Console.WriteLine($"#{i+1} ITEM INFO");
+                Console.WriteLine($"#{i + 1} ITEM INFO");
 
                 Console.Write("Product Name: ");
                 productName = Console.ReadLine();
@@ -266,7 +272,7 @@ namespace Course
             }
 
             Console.WriteLine(order);
-            
+
         }
 
         static void ProgramaQuatro()
@@ -280,7 +286,7 @@ namespace Course
             Account acc3 = new SavingsAccount(1004, "Ana", 0.0, 0.01);
 
             //DOWNCASTING -- OPERAÇÃO INSEGURA -- TESTAR 
-            BusinessAccount acc4 = (BusinessAccount) acc2;
+            BusinessAccount acc4 = (BusinessAccount)acc2;
             acc4.Loan(200.0);
             //BusinessAccount acc5 = (BusinessAccount) acc3;  //<< ISSO NÃO É POSSÍVEL O COMPILADOR ENTENDER
             //Usando operador " is " para testar 
@@ -329,7 +335,7 @@ namespace Course
 
             for (int i = 0; i < n; i++)
             {
-                Console.WriteLine($"#{i+1} Funcionário ");
+                Console.WriteLine($"#{i + 1} Funcionário ");
 
                 Console.Write("Nome: ");
                 string name = Console.ReadLine();
@@ -362,11 +368,11 @@ namespace Course
             Console.WriteLine("PAGAMENTOS:");
             Console.WriteLine();
 
-            foreach(Employee e in employees)
+            foreach (Employee e in employees)
             {
                 Console.WriteLine($"{e.Name} - R$ {e.Payment().ToString("F2")}");
             }
-            
+
         }
 
         static void ProgramaSete()
@@ -381,7 +387,7 @@ namespace Course
 
             for (int i = 0; i < n; i++)
             {
-                Console.WriteLine($"Product #{i+1} data: ");
+                Console.WriteLine($"Product #{i + 1} data: ");
                 Console.Write("Common, used or imported (c/u/i)? ");
                 char type = char.Parse(Console.ReadLine());
                 Console.Write("Name: ");
@@ -394,7 +400,8 @@ namespace Course
                     Console.Write("Enter customs fee: ");
                     double customsFee = double.Parse(Console.ReadLine());
                     product = new ImportedProduct(name, price, customsFee);
-                }else if(type=='u' || type == 'U')
+                }
+                else if (type == 'u' || type == 'U')
                 {
                     Console.Write("Enter manufature date: ");
                     DateTime manufactureDate = DateTime.Parse(Console.ReadLine());
@@ -411,7 +418,7 @@ namespace Course
             }
 
             Console.WriteLine("PRICE TAGS");
-            foreach(Product p in products)
+            foreach (Product p in products)
             {
                 Console.WriteLine(p.PriceTag());
             }
@@ -429,27 +436,28 @@ namespace Course
 
             for (int i = 0; i < n; i++)
             {
-                Console.WriteLine("Contribuinte #{0}", i+1);
+                Console.WriteLine("Contribuinte #{0}", i + 1);
 
                 Console.WriteLine($"Física ou Jurídica {i + 1} (f/j): ");
                 char type = char.Parse(Console.ReadLine());
 
-                Console.WriteLine($"Nome {i+1}: ");
+                Console.WriteLine($"Nome {i + 1}: ");
                 string name = Console.ReadLine();
 
                 Console.WriteLine($"Receita anual {i + 1}: ");
                 double anualIncome = double.Parse(Console.ReadLine());
 
-                if(type == 'f' || type == 'F')
+                if (type == 'f' || type == 'F')
                 {
                     Console.WriteLine($"Gastos anuais com saúde  {i + 1}: ");
                     double healthExpenditures = double.Parse(Console.ReadLine());
 
                     taxPayer = new Individual(name, anualIncome, healthExpenditures);
-                }else
+                }
+                else
                 {
                     Console.WriteLine($"Número de empregados  {i + 1}: ");
-                    int numberOfEmployees= int.Parse(Console.ReadLine());
+                    int numberOfEmployees = int.Parse(Console.ReadLine());
 
                     taxPayer = new Company(name, anualIncome, numberOfEmployees);
                 }
@@ -460,7 +468,7 @@ namespace Course
             }
 
             Console.WriteLine("TAXES PAID");
-            double sum = 0; 
+            double sum = 0;
             foreach (TaxPayer tp in taxPayers)
             {
                 Console.WriteLine($"{tp.Name}: R$ {tp.TaxPaid().ToString("F2")}");
@@ -468,6 +476,55 @@ namespace Course
             }
 
             Console.WriteLine($"Total taxes: {sum}");
+        }
+
+        static void ProgramaNove()
+        {
+            bool error = true;
+            while (error)
+            {
+                try
+                {
+                    Console.Write("Room number: ");
+                    int roomNumber = int.Parse(Console.ReadLine());
+
+                    Console.Write("Check-in date (dd/MM/yyyy): ");
+                    DateTime checkin = DateTime.Parse(Console.ReadLine());
+
+                    Console.Write("Check-out date (dd/MM/yyyy): ");
+                    DateTime checkout = DateTime.Parse(Console.ReadLine());
+
+                    Reservation reservation = new Reservation(roomNumber, checkin, checkout);
+                    Console.WriteLine(reservation);
+
+                    Console.WriteLine();
+                    Console.WriteLine("Update Reservation");
+
+                    Console.Write("Check-in date (dd/MM/yyyy): ");
+                    checkin = DateTime.Parse(Console.ReadLine());
+
+                    Console.Write("Check-out date (dd/MM/yyyy): ");
+                    checkout = DateTime.Parse(Console.ReadLine());
+
+                    reservation.UpdateDates(checkin, checkout);
+
+                    Console.WriteLine();
+                    Console.WriteLine("Reservation updated: " + reservation);
+                    error = false;
+                }
+                catch (DomainException e)
+                {
+                    Console.WriteLine("Error: " + e.Message);
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Format Error: " + e.Message);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error: " + e.Message);
+                }
+            }
         }
     }
 }
