@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Course.Entities;
 using Course.Entities.Enums;
+using Course.Entities.TaxPayers;
 
 namespace Course
 {
@@ -44,6 +45,9 @@ namespace Course
                     break;
                 case 7:
                     ProgramaSete();
+                    break;
+                case 8:
+                    ProgramaOito();
                     break;
                 default:
                     Console.WriteLine("Programa padrão ProgramaUm");
@@ -412,6 +416,58 @@ namespace Course
                 Console.WriteLine(p.PriceTag());
             }
 
+        }
+
+        static void ProgramaOito()
+        {
+            Console.WriteLine();
+
+            List<TaxPayer> taxPayers = new List<TaxPayer>();
+            TaxPayer taxPayer;
+
+            int n = 1;
+
+            for (int i = 0; i < n; i++)
+            {
+                Console.WriteLine("Contribuinte #{0}", i+1);
+
+                Console.WriteLine($"Física ou Jurídica {i + 1} (f/j): ");
+                char type = char.Parse(Console.ReadLine());
+
+                Console.WriteLine($"Nome {i+1}: ");
+                string name = Console.ReadLine();
+
+                Console.WriteLine($"Receita anual {i + 1}: ");
+                double anualIncome = double.Parse(Console.ReadLine());
+
+                if(type == 'f' || type == 'F')
+                {
+                    Console.WriteLine($"Gastos anuais com saúde  {i + 1}: ");
+                    double healthExpenditures = double.Parse(Console.ReadLine());
+
+                    taxPayer = new Individual(name, anualIncome, healthExpenditures);
+                }else
+                {
+                    Console.WriteLine($"Número de empregados  {i + 1}: ");
+                    int numberOfEmployees= int.Parse(Console.ReadLine());
+
+                    taxPayer = new Company(name, anualIncome, numberOfEmployees);
+                }
+                taxPayers.Add(taxPayer);
+                Console.WriteLine("success");
+                Console.WriteLine();
+
+            }
+
+            Console.WriteLine("TAXES PAID");
+            double sum = 0; 
+            foreach (TaxPayer tp in taxPayers)
+            {
+                Console.WriteLine($"{tp.Name}: R$ {tp.TaxPaid().ToString("F2")}");
+                sum += tp.TaxPaid();
+            }
+
+            Console.WriteLine($"Total taxes: {sum}");
         }
     }
 }
